@@ -5,12 +5,12 @@ import { initializeApp } from "firebase/app";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: "AIzaSyBx9t9qKwV8ePEeoCKmhfpwIQ5qUqbrcf0",
-  authDomain: "fisio-data.firebaseapp.com",
-  projectId: "fisio-data",
-  storageBucket: "fisio-data.firebasestorage.app",
-  messagingSenderId: "1073759402153",
-  appId: "1:1073759402153:web:411fe21eef49f3329f91b8"
+  apiKey: "AIzaSyAZ0SZYaJxg3DQ0UZc60VS0OgwgcpXiBYY",
+  authDomain: "fisio-data-ped.firebaseapp.com",
+  projectId: "fisio-data-ped",
+  storageBucket: "fisio-data-ped.firebasestorage.app",
+  messagingSenderId: "632254468640",
+  appId: "1:632254468640:web:a2f6946d9c009129a4a245"
 };
 
 // Initialize Firebase
