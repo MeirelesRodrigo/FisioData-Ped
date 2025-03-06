@@ -1,0 +1,23 @@
+<nav *ngIf="!isLoginPage"  class="navbar" style="background-color: #597445;">
+  <div class="navbar-logo">
+    <button class="btn btn-custom-green" routerLink="/listar">
+      FisioData - Ped
+    </button>
+  </div>
+  <div >
+
+    <button class="btn btn-custom-green" routerLink="/form" title="Admissão de Pacientes">
+      <fa-icon [icon]="iconsService.faCirclePlus"></fa-icon>
+    </button>
+    <button class="btn btn-custom-green" routerLink="/listar" title="Listar Pacientes Internados">
+      <fa-icon [icon]="iconsService.faBookMedial"></fa-icon>
+    </button>
+    <button class="btn btn-custom-green" routerLink="/relatorio" title="Relatório">
+      <fa-icon [icon]="iconsService.faChartPie"></fa-icon>
+    </button>
+  </div>
+</nav>
+
+
+
+<router-outlet></router-outlet>

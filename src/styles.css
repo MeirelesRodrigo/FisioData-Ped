@@ -1,0 +1,44 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400&display=swap');
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+a{
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.title, h5{
+  color: rgba(89, 116, 69, 1);
+}
+.btn-custom-green {
+  background-color: #597445 ; /* Verde do Bootstrap */
+  color: #ffffff;
+  border: none;
+}
+
+.btn-custom-green:hover {
+  background-color: #e4e4e4; /* Um verde mais escuro para o efeito hover */
+}
+.error-mensage{
+  color: red;
+  border-left: 1px solid red;
+  padding-left: 4px;
+
+}
+
+.title h2 {
+  margin-left: 20px;
+  font-size: 24px;
+  color: #597445;
+}
+.title hr {
+  margin-left: 10px 0;
+  border-color: #ccc;
+}
+form{
+  margin: 20px  ;
+}

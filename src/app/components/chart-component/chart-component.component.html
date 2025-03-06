@@ -1,0 +1,21 @@
+<app-search-component
+  (clear)="clearFilter()"
+  (search)="searchPacients($event)"
+  [hideButton]="true">
+</app-search-component>
+<div class="card text-center mt-2">
+  <p> Total de atendimentos: {{totalDeAtendimentos}}</p>
+  <!-- {{totalDeAtendimentos2}} -->
+</div>
+
+<div class="row mb-4">
+
+  <div *ngFor="let chart of chartType; let i = index" class="col-md-4 mb-4 mt-2">
+    <div class="card text-center">
+      <div class="card-body">
+        <h3 class="card-title">{{chart.title}}</h3>
+        <p-chart [type]="chart.type" [data]="chart.data" [options]="chart.options" class="p-chart" width="100%" height="300px"></p-chart>
+      </div>
+    </div>
+  </div>
+</div>
