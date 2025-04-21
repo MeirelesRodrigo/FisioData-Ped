@@ -58,6 +58,7 @@
           <option value="4º-Oscar">4º - Oscar</option>
           <option value="5º-Oscar">5º - Oscar</option>
           <option value="6º-Oscar">6º - Oscar</option>
+          <option value="PSI">PSI</option>
         </select>
         <div *ngIf="form.get('department')?.hasError && form.get('department')?.touched">
           <small class="error-mensage" *ngIf="form.get('department')?.errors?.['required']">Campo obrigatório </small>
@@ -99,7 +100,8 @@
         <option value="Alta-Melhorada">Alta melhorada</option>
         <option value="Contra-Indicado">Contra-Indicação</option>
         <option value="Transf-Boulevard">Transferência - Boulevard</option>
-        <option value="Transf-UTI">Transferência - UTI</option>
+        <option value="Transf-UTI-NEO">Transferência - UTI NEO</option>
+        <option value="Transf-Sala-Vermelha">Transferência - Sala Vermelha</option>
         <option value="Transf-CC">Transferência - CC</option>
         <option value="Óbito">Óbito</option>
         <option value="Evasão">Evasão</option>
@@ -166,6 +168,7 @@
         <label for="mrc">MRC - ADM</label>
         <select class="form-select" for="mrc" name="mrc" formControlName="mrc">
           <option value="" selected disabled>Selecione...</option>
+          <option value="">N/A</option>
           <option value="0">0 - Paralisa completa</option>
           <option value="1">1 - Mínima Contração</option>
           <option value="2">2 - Ausência de Movimento ativos contra gravidade</option>
@@ -173,14 +176,15 @@
           <option value="4">4 - Movimento ativo contra gravidade</option>
           <option value="5">5 - Força normal</option>
         </select>
-        <div *ngIf="form.get('mrc')?.hasError && form.get('mrc')?.touched">
+        <!-- <div *ngIf="form.get('mrc')?.hasError && form.get('mrc')?.touched">
           <small class="error-mensage" *ngIf="form.get('mrc')?.errors?.['required']">Campo obrigatório </small>
-        </div>
+        </div> -->
       </div>
       <div class="col-md-4">
         <label for="mrcDischarge">MRC - ALTA</label>
         <select class="form-select" for="mrcDischarge" name="mrcDischarge" formControlName="mrcDischarge">
           <option value="" selected disabled>Selecione...</option>
+          <option value="">N/A</option>
           <option value="0">0 - Paralisa completa</option>
           <option value="1">1 - Mínima Contração</option>
           <option value="2">2 - Ausência de Movimento ativos contra gravidade</option>
@@ -188,9 +192,9 @@
           <option value="4">4 - Movimento ativo contra gravidade</option>
           <option value="5">5 - Força normal</option>
         </select>
-        <div *ngIf="form.get('mrcDischarge')?.hasError && form.get('mrcDischarge')?.touched">
+        <!-- <div *ngIf="form.get('mrcDischarge')?.hasError && form.get('mrcDischarge')?.touched">
           <small class="error-mensage" *ngIf="form.get('mrcDischarge')?.errors?.['required']">Campo obrigatório </small>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="row">
@@ -224,6 +228,18 @@
       <input class="form-check-input" type="checkbox" value="nonInvasiveVentilation" id="nonInvasiveVentilation" formControlName="nonInvasiveVentilation">
       <label class="form-check-label" for="nonInvasiveVentilation">
         Uso da VNI
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="venturi" id="venturi" formControlName="venturi">
+      <label class="form-check-label" for="venturi">
+        Máscara de Venturi
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="nreinalante" id="nreinalante" formControlName="nreinalante">
+      <label class="form-check-label" for="nreinalante">
+        Máscara não Reinalante
       </label>
     </div>
     <div class="form-check">

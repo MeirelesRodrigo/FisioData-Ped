@@ -1,14 +1,80 @@
-<app-search-component
+<app-search-component class="row mb-4 mt-4 ms-2 me-2"
   (clear)="clearFilter()"
   (search)="searchPacients($event)"
   [hideButton]="true">
 </app-search-component>
-<div class="card text-center mt-2">
-  <p> Total de atendimentos: {{totalDeAtendimentos}}</p>
-  <!-- {{totalDeAtendimentos2}} -->
+
+<div class="row mb-4 mt-4 ms-2 me-2">
+  <!-- Pacientes Únicos -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Total de pacientes atendidos:</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{totalPacientesUnicos}}</h6>
+        <p class="card-text">Número total de pacientes distintos que receberam atendimento de fisioterapia no período, independente do número de sessões.</p>
+        <p class="code-text">
+          <code >totalPacientesUnicos = quantidade de pacientes válidos (idade ≥ 0)</code>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total Dias Internação -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Dias totais de internação:</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{totalDiasInternacao}}</h6>
+        <p class="card-text">Soma de todos os dias que os pacientes permaneceram internados, considerando o período de cada internação.</p>
+        <p class="code-text">
+          <code class="card-text">totalDiasInternacao = Σ(dataAlta - dataAdmissão + 1 dia)</code>
+        </p>
+        </div>
+    </div>
+  </div>
+
+  <!-- Total Atendimentos -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Total de atendimentos:</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{totalAtendimentosMes}}</h6>
+        <p class="card-text">Quantidade total de sessões de fisioterapia realizadas, considerando 2 atendimentos por dia de internação.</p>
+        <p class="code-text">
+          <code class="card-text">totalAtendimentosMes = totalDiasInternacao * 2</code>
+        </p>
+        </div>
+    </div>
+  </div>
+
+  <!-- Média Diária -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Média diária de atendimentos:</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{mediaAtendimentosDiarios | number:'1.0-1'}}</h6>
+        <p class="card-text">Média de sessões de fisioterapia realizadas por dia, calculada sobre o total do período.</p>
+        <p class="code-text">
+          <code class="card-text">mediaAtendimentosDiarios = totalAtendimentosMes / totalDiasInternacao</code>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dias/Paciente -->
+  <div class="col-md-4 mb-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">Média de dias por paciente:</h5>
+        <h6 class="card-subtitle mb-2 text-body-secondary">{{mediaDiasInternacaoPorPaciente | number:'1.0-1'}}</h6>
+        <p class="card-text">Tempo médio de internação dos pacientes que receberam atendimento fisioterapêutico.</p>
+        <p class="code-text">
+          <code class="card-text">mediaDiasInternacaoPorPaciente = totalDiasInternacao / totalPacientesUnicos</code>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="row mb-4">
+<div class="row mb-4 me-2 ms-2">
 
   <div *ngFor="let chart of chartType; let i = index" class="col-md-4 mb-4 mt-2">
     <div class="card text-center">

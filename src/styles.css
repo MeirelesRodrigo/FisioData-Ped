@@ -12,7 +12,7 @@ a{
 }
 
 .title, h5{
-  color: rgba(89, 116, 69, 1);
+  color: #5ae4a8;
 }
 .btn-custom-green {
   background-color: #5ae4a8 ; /* Verde do Bootstrap */
@@ -33,7 +33,7 @@ a{
 .title h2 {
   margin-left: 20px;
   font-size: 24px;
-  color: #597445;
+  color: #5ae4a8;
 }
 .title hr {
   margin-left: 10px 0;

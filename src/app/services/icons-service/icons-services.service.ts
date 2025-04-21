@@ -6,7 +6,8 @@ import { faCirclePlus,
          faHouseChimneyCrack,
          faReceipt,
          faChartPie,
-         faBookMedical } from '@fortawesome/free-solid-svg-icons';
+         faBookMedical,
+         faTrashCan } from '@fortawesome/free-solid-svg-icons';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class IconsServicesService {
   faReceipt = faReceipt
   faChartPie = faChartPie
   faBookMedial = faBookMedical
+  faTrashCan = faTrashCan
 
   constructor() { }
 }

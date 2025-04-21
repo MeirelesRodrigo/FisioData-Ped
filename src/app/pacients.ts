@@ -19,4 +19,6 @@ export interface Pacients {
   oxygenTherapy?: boolean
   nonInvasiveVentilation?: boolean
   therapeuticPlan?: boolean
+  venturi?: boolean
+  nreinalante?: boolean
 }

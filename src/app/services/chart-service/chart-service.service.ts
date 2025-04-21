@@ -191,6 +191,8 @@ export class ChartServiceService {
     const fisioRespiratoriaMap = new Map<string, number>();
     const oxigenoMap = new Map<string, number>();
     const vniMap = new Map<string, number>();
+    const venturiMap = new Map<string, number>();
+    const naoReinalanteMap = new Map<string, number>();
     fisioMotoraMap.set('Fisioterapia Motora', 0);
     fisioRespiratoriaMap.set('Fisioterapia Respiratória', 0);
 
@@ -210,14 +212,24 @@ export class ChartServiceService {
       if (p.nonInvasiveVentilation) {
         vniMap.set('Uso de VNI', (vniMap.get('Uso de VNI') || 0) + 1);
       }
+
+      if (p.venturi) {
+        venturiMap.set('venturi', (venturiMap.get('venturi') || 0) + 1);
+      }
+
+      if (p.nreinalante) {
+        naoReinalanteMap.set('naoReinalante', (naoReinalanteMap.get('naoReinalante') || 0) + 1);
+      }
     });
 
-    const labels = ['Fisioterapia Motora', 'Fisioterapia Respiratória', 'Uso de O2', 'Uso de VNI'];
+    const labels = ['Fisioterapia Motora', 'Fisioterapia Respiratória', 'Uso de O2', 'Uso de VNI', 'Uso Venturi', 'Uso Máscara Não Reinalante'];
     const values = [
       fisioMotoraMap.get('Fisioterapia Motora'),
       fisioRespiratoriaMap.get('Fisioterapia Respiratória'),
       oxigenoMap.get('Uso de O2'),
-      vniMap.get('Uso de VNI')
+      vniMap.get('Uso de VNI'),
+      venturiMap.get('venturi'),
+      naoReinalanteMap.get('naoReinalante'),
     ];
 
     const backgroundColors = labels.map(() => this.generateRandomColor());
@@ -281,48 +293,56 @@ export class ChartServiceService {
 
   graficoPorMediaIdade(listPacient: Pacients[]) {
     const agetMap = new Map<number, number>();
-    let age15_29 = 0;
-    let age30_44 = 0;
-    let age44_59 = 0;
-    let age60_74 = 0;
-    let age75_89 = 0;
-    let age90_100 = 0;
+    let age0_1 = 0;
+    let age2_5 = 0;
+    let age6_9 = 0;
+    let age10_14 = 0;
+
+
 
     listPacient.forEach(p => {
-      if(p.age >= 15 && p.age <=29){
-        age15_29++
-      } else if(p.age >= 30 && p.age <=44){
-        age30_44++
-      } else if (p.age >= 45 && p.age <=59) {
-        age44_59++
-      }  else if (p.age >= 60 && p.age <= 74) {
-        age60_74++
-      } else if (p.age >= 75 && p.age <= 89) {
-        age75_89++
-      } else if (p.age >= 90 && p.age <= 100) {
-        age90_100++
+      if (p.age >= 0 && p.age <= 1) {
+        age0_1++;
+      } else if (p.age >= 2 && p.age <= 5) {
+        age2_5++;
+      } else if (p.age >= 6 && p.age <= 9) {
+        age6_9++;
+      } else if (p.age >= 10 && p.age <= 15) {
+        age10_14++;
       }
-      agetMap.set(p.age, (agetMap.get(p.age) || 0) + 1)
-    })
+      agetMap.set(p.age, (agetMap.get(p.age) || 0) + 1);
+    });
+
     const labels = Array.from(agetMap.keys());
-    const backgroundColors = labels.map(() => this.generateRandomColor())
-    const hoverbackgroundColors = backgroundColors.map(color => `${color}80`)
+    const backgroundColors = labels.map(() => this.generateRandomColor());
+    const hoverbackgroundColors = backgroundColors.map(color => `${color}80`);
 
     if (isPlatformBrowser(this.platformId)) {
       const documentStyle = getComputedStyle(document.documentElement);
       const textColor = documentStyle.getPropertyValue('--text-color');
       return {
-        labels: ["15 a 30", "30 a 44", "44 a 59", "60 a 74", "75 a 89", "90 a 100"],
+        labels: [
+          "0 a 1 ano",
+          "2 a 5 anos",
+          "6 a 9 anos",
+          "10 a 15 anos",
+        ],
         datasets: [
           {
             label: 'Número de Pacientes',
-            data: [age15_29, age30_44, age44_59, age60_74, age75_89, age90_100],
+            data: [
+              age0_1,
+              age2_5,
+              age6_9,
+              age10_14,
+            ],
             backgroundColor: backgroundColors,
             hoverBackgroundColor: hoverbackgroundColors
           }
         ]
       };
     }
+
     return {
       labels: [],
       datasets: []
@@ -422,12 +442,14 @@ export class ChartServiceService {
         datasets: [
           {
             label: 'Total Atendimentos',
+            hidden: true,
             data: labels.map(m => atendidosPorMes.get(m) || 0),
             backgroundColor: backgroundColorsAtendidos,
             hoverBackgroundColor: hoverBackgroundColorsAtendidos
           },
           {
             label: 'Internados',
+            hidden: true,
             data: labels.map(m => internados.get(m) || 0),
             backgroundColor: backgroundColorsInternados,
             hoverBackgroundColor: hoverBackgroundColorsInternados
@@ -453,6 +475,7 @@ export class ChartServiceService {
       datasets: []
     };
   }
+
   AltasPorMes(listPacient: Pacients[]) {
     const atendidosPorMes = new Map<string, number>();
     const altasPorMes = new Map<string, number>();
@@ -460,6 +483,8 @@ export class ChartServiceService {
     const transfBoulevard = new Map<string, number>();
     const transfUti = new Map<string, number>();
     const transfCc = new Map<string, number>();
+    const transfsalaVermelha = new Map<string, number>();
+    const transfUtiNeo = new Map<string, number>();
     const obito = new Map<string, number>();
     const evasao = new Map<string, number>();
 
@@ -482,16 +507,22 @@ export class ChartServiceService {
         transfBoulevard.set(mesAno, (transfBoulevard.get(mesAno) || 0) + 1)
       }
       if(p.dischargeStatus == "Transf-UTI"){
-        transfUti.set(mesAno, (transfBoulevard.get(mesAno) || 0) + 1)
+        transfUti.set(mesAno, (transfUti.get(mesAno) || 0) + 1)
       }
       if(p.dischargeStatus === "Transf-CC") {
-        transfCc.set(mesAno, (transfBoulevard.get(mesAno) || 0) + 1)
+        transfCc.set(mesAno, (transfCc.get(mesAno) || 0) + 1)
       }
       if(p.dischargeStatus == 'Óbito'){
-        obito.set(mesAno, (transfBoulevard.get(mesAno) || 0) + 1)
+        obito.set(mesAno, (obito.get(mesAno) || 0) + 1)
       }
       if(p.dischargeStatus == 'Evasão'){
-        evasao.set(mesAno, (transfBoulevard.get(mesAno) || 0) + 1)
+        evasao.set(mesAno, (evasao.get(mesAno) || 0) + 1)
+      }
+      if(p.dischargeStatus == 'Transf-Sala-Vermelha'){
+        transfsalaVermelha.set(mesAno, (transfsalaVermelha.get(mesAno) || 0) + 1)
+      }
+      if(p.dischargeStatus == 'Transf-UTI-NEO'){
+        transfUtiNeo.set(mesAno, (transfUtiNeo.get(mesAno) || 0) + 1)
       }
 
 
@@ -509,6 +540,8 @@ export class ChartServiceService {
     const colorTransfCc = this.generateRandomColor();
     const colorObito = this.generateRandomColor();
     const colorEvasao = this.generateRandomColor();
+    const colorsalaVermelha = this.generateRandomColor();
+    const colorsUtiNeo = this.generateRandomColor();
 
     // Criando arrays de cores consistentes
     const backgroundColorsAtendidos = labels.map(() => colorAtendidos);
@@ -535,6 +568,11 @@ export class ChartServiceService {
     const backgroundColorsEvasao = labels.map(() => colorEvasao);
     const hoverBackgroundColorsEvasao = backgroundColorsAltas.map(color => `${color}80`);
 
+    const backgroundColorsSalaVemelha = labels.map(() => colorsalaVermelha);
+    const hoverBackgroundSalaVemelha = backgroundColorsAltas.map(color => `${color}80`);
+
+    const backgroundColorsUtiNeo = labels.map(() => colorsUtiNeo);
+    const hoverBackgroundcolorsUtiNeo = backgroundColorsAltas.map(color => `${color}80`);
 
     if (isPlatformBrowser(this.platformId)) {
       return {
@@ -542,12 +580,14 @@ export class ChartServiceService {
         datasets: [
           {
             label: 'Total Atendimentos',
+            hidden: true,
             data: labels.map(m => atendidosPorMes.get(m) || 0),
             backgroundColor: backgroundColorsAtendidos,
             hoverBackgroundColor: hoverBackgroundColorsAtendidos
           },
           {
             label: 'Alta Melhorada',
+            hidden: true,
             data: labels.map(m => altasPorMes.get(m) || 0),
             backgroundColor: backgroundColorsAltas,
             hoverBackgroundColor: hoverBackgroundColorsAltas
@@ -575,6 +615,18 @@ export class ChartServiceService {
             data: labels.map(m => transfCc.get(m) || 0),
             backgroundColor: backgroundColorsTransfCc,
             hoverBackgroundColor: hoverBackgroundColorsTransfCc
+          },
+          {
+            label: 'Transf/ Sala Vermelha',
+            data: labels.map(m => transfsalaVermelha.get(m) || 0),
+            backgroundColor: backgroundColorsSalaVemelha,
+            hoverBackgroundColor: hoverBackgroundSalaVemelha
+          },
+          {
+            label: 'Transf/ UTI NEO',
+            data: labels.map(m => transfUtiNeo.get(m) || 0),
+            backgroundColor: backgroundColorsUtiNeo,
+            hoverBackgroundColor: hoverBackgroundcolorsUtiNeo
           },
           {
             label: 'Óbito',

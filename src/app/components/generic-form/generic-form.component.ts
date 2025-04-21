@@ -57,12 +57,14 @@ export class GenericFormComponent implements OnInit, OnChanges {
     specialist: new FormControl('', Validators.required),
     diagnoses: new FormControl('', Validators.required),
     comorbidities: new FormControl('', Validators.required),
-    mrc: new FormControl('', Validators.required),
-    mrcDischarge: new FormControl('', Validators.required),
+    mrc: new FormControl(''),
+    mrcDischarge: new FormControl(''),
     motorPhysiotherapy: new FormControl<Boolean | null>(null),
     respiratoryPhysiotherapy: new FormControl<Boolean | null>(null),
     oxygenTherapy: new FormControl<Boolean | null>(null),
     nonInvasiveVentilation: new FormControl<Boolean | null>(null),
+    venturi: new FormControl<Boolean | null>(null),
+    nreinalante: new FormControl<Boolean | null>(null),
     therapeuticPlan: new FormControl<Boolean | null>(null),
     procedures: new FormControl('')
   });
@@ -107,6 +109,8 @@ export class GenericFormComponent implements OnInit, OnChanges {
             respiratoryPhysiotherapy: pacient.respiratoryPhysiotherapy,
             oxygenTherapy: pacient.oxygenTherapy,
             nonInvasiveVentilation: pacient.nonInvasiveVentilation,
+            venturi: pacient.venturi,
+            nreinalante: pacient.nreinalante,
             therapeuticPlan: pacient.therapeuticPlan
       });
     })
@@ -121,8 +125,8 @@ export class GenericFormComponent implements OnInit, OnChanges {
 
     } else {
       await this.firebaseService.criarRegistro({ ...DATA, id: this.idUser } as Pacients);
-      this.showMessageSucess();
       this.form.reset();
+      this.showMessageSucess();
     }
     } catch (error) {}
   }

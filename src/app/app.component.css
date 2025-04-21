@@ -15,7 +15,7 @@
 }
 
 .btn-custom-green:hover {
-  background-color: #3d532d; /* Um verde mais escuro para o efeito hover */
+  background-color: #48b384; /* Um verde mais escuro para o efeito hover */
 }
 
 ::ng-deep .p-toast .p-toast-message-success .p-toast-detail {

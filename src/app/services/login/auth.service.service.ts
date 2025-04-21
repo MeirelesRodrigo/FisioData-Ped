@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthServiceService {
-  private validUser = {user: 'fisioPed@123', password: 'fisioPed@123'}
+  private validUser = {user: 'Fisio@123', password: 'Fisio@123'}
 
   constructor(private router: Router) {}
 

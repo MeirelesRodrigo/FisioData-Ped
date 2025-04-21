@@ -22,8 +22,20 @@ export class ChartComponentComponent {
 
     listPacients: Pacients[] = []
     allPacients: Pacients[] = []
+
     totalDeAtendimentos: number = 0
-    totalDeAtendimentos2: number = 0
+    totalAtendimentoDiario: number = 0
+
+    mediaAtendimentosDiarios: number = 0;
+
+    totaldePacientes: number = 0
+
+    totalPacientesUnicos: number = 0;
+    totalDiasInternacao: number = 0;
+    totalAtendimentosMes: number = 0;
+
+    mediaDiasInternacaoPorPaciente: number = 0;
+
 
     constructor(
         private firebaseService: FirebaseService,
@@ -83,9 +95,66 @@ export class ChartComponentComponent {
         }
       }
 
-    generalReport() {
-        this.totalDeAtendimentos = this.listPacients.filter(p => p.age >= 0).length
 
+      generalReport() {
+        try {
+          const pacientesValidos = this.listPacients.filter(p => p.age >= 0);
+          this.totalPacientesUnicos = pacientesValidos.length;
+
+          this.totalDiasInternacao = pacientesValidos.reduce((total, paciente) => {
+              const dataAdmissao = new Date(paciente.admissionDate);
+              const dataAlta = paciente.dischargeDate ? new Date(paciente.dischargeDate) : new Date();
+
+              dataAdmissao.setHours(0, 0, 0, 0);
+              dataAlta.setHours(0, 0, 0, 0);
+
+              // Verificação de erro lógico
+              if (dataAlta < dataAdmissao) {
+                  console.warn(`⚠️ Alta anterior à admissão para ${paciente.name}`);
+                  return total;
+              }
+
+              const diffDias = Math.floor((dataAlta.getTime() - dataAdmissao.getTime()) / (1000 * 60 * 60 * 24));
+              return total + diffDias;
+          }, 0);
+
+          this.totalAtendimentosMes = this.totalDiasInternacao * 2;
+
+          const diasNoMes = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0).getDate();
+          this.mediaAtendimentosDiarios = this.totalAtendimentosMes / diasNoMes;
+
+          this.mediaDiasInternacaoPorPaciente = this.totalDiasInternacao / this.totalPacientesUnicos;
+
+          // Relatório por paciente com datas formatadas
+          const detalhesPacientes = pacientesValidos.map(p => {
+            const admissaoDate = new Date(p.admissionDate);
+            const altaDate = p.dischargeDate ? new Date(p.dischargeDate) : new Date();
+
+            admissaoDate.setHours(0, 0, 0, 0);
+            altaDate.setHours(0, 0, 0, 0);
+
+            const dias = Math.floor((altaDate.getTime() - admissaoDate.getTime()) / (1000 * 60 * 60 * 24) );
+
+            const formatarData = (data: Date): string => {
+              const iso = data.toISOString().split('T')[0]; // yyyy-mm-dd
+              const [ano, mes, dia] = iso.split('-');
+              return `${dia}/${mes}/${ano}`;
+            };
+
+            return {
+              Nome: p.name,
+              Admissão: formatarData(admissaoDate),
+              Alta: p.dischargeDate ? formatarData(altaDate) : "Sem alta (contou até hoje)",
+              Dias: dias
+            };
+          });
+        } catch (error) {
+          console.error("❌ Erro no relatório:", error);
+        }
+      }
+
+    getDiasNoMes(date: Date): number {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
     }
 
     searchPacients(filters: any): void {
@@ -106,7 +175,7 @@ export class ChartComponentComponent {
         this.chartType = [
             {
                 type: 'bar',
-                title: 'Análise Geral',
+                title: 'MRC',
                 data: this.chartService.graficoGeral(this.listPacients),
                 options: this.chartService.getOptions()
             },

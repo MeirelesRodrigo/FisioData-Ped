@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collectionData, collection, addDoc, updateDoc, doc, getDoc, where, query, getDocs } from '@angular/fire/firestore';
+import { Firestore, collectionData, collection, addDoc, updateDoc, doc, getDoc, where, query, getDocs, deleteDoc } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Pacients } from '../pacients';
 
@@ -78,5 +78,14 @@ export class FirebaseService {
       return docSnap.data() as Pacients;
     }
     return {} as Pacients;
+  }
+
+  async excluirPacientePorId(id: string): Promise<void>{
+    try{
+      const docRef = doc(this.pacientsCollection, id);
+      await deleteDoc(docRef);
+    }catch (error){
+      console.error(error);
+    }
   }
 }

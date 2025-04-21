@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { IconsServicesService } from '../../services/icons-service/icons-services.service';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { GenericFormComponent } from '../generic-form/generic-form.component';
@@ -11,12 +11,14 @@ import { ToastModule } from 'primeng/toast';
 import { Dialog } from 'primeng/dialog';
 import { DetailComponentComponent } from "../detail-component/detail-component.component";
 import { FirebaseService } from '../../services/firebase.service';
-import { PaginatorModule } from 'primeng/paginator';
-import { pipe, take } from 'rxjs';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmPopupModule } from 'primeng/confirmpopup';
+
 
 @Component({
   selector: 'app-list-pacient',
   imports: [
+    ConfirmPopupModule,
     FontAwesomeModule,
     GenericFormComponent,
     CommonModule,
@@ -27,6 +29,7 @@ import { pipe, take } from 'rxjs';
     Dialog,
     DetailComponentComponent
 ],
+  providers: [ConfirmationService, MessageService],
   templateUrl: './list-pacient.component.html',
   styleUrl: './list-pacient.component.css'
 })
@@ -43,7 +46,9 @@ export class ListPacientComponent implements OnInit{
     private fb: FormBuilder,
     public IconsService: IconsServicesService,
     private cdr: ChangeDetectorRef,
-    private firebaseService: FirebaseService
+    private firebaseService: FirebaseService,
+    private confirmationService: ConfirmationService,
+    private messageService: MessageService
   ){
     this.filterForm = this.fb.group({
       name: [''],
@@ -111,5 +116,28 @@ export class ListPacientComponent implements OnInit{
       new Date(b.admissionDate).getTime() - new Date(a.admissionDate).getTime())
       this.allPacients = [...this.listPacients]
     })
+  }
+
+  confirmeDelete(event: Event, itemName: string, itemId: string) {
+    const targetElement = event.currentTarget as HTMLElement; // Obtém o botão corretamente
+
+    this.confirmationService.confirm({
+      target: targetElement, // Usa o botão como referência direta
+      message: `Tem certeza que deseja excluir o paciente:  ${itemName}?`,
+      icon: 'pi pi-exclamation-triangle',
+      acceptLabel: "Sim",
+      rejectLabel: "Não",
+      acceptButtonStyleClass: "p-button-danger",
+      rejectButtonStyleClass: "p-button-text",
+      accept: () => {
+        this.deletePacient(itemId)
+      },
+    });
+    this.cdr.detectChanges();
+  }
+
+  deletePacient(itemId: string){
+    this.itemSelect = itemId
+    this.firebaseService.excluirPacientePorId(itemId)
   }
 }

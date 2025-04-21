@@ -3,12 +3,12 @@
   border-color: #5ae4a8 !important; /* Borda verde */
 }
 
-
+/* 5ae4a8 48b384 */
 form h5 {
   margin-top: 20px;
   font-size: 18px;
   font-weight: bold;
-  color: #597445;
+  color: #404744;
 }
 
 .form-title-info{
@@ -16,21 +16,25 @@ form h5 {
 }
 
 .btn-custom-green {
-  background-color: #597445 ; /* Verde do Bootstrap */
+  background-color: #5ae4a8 ; /* Verde do Bootstrap */
   color: #ffffff;
   border: none;
 }
 
 .btn-custom-green:hover {
-  background-color: #3d532d; /* Um verde mais escuro para o efeito hover */
+  background-color: #48b384; /* Um verde mais escuro para o efeito hover */
 }
 
 .btn-custom-light-green {
-  background-color: #86a371 ; /* Verde do Bootstrap */
+  background-color: #5ae4a8 ; /* Verde do Bootstrap */
   color: #ffffff;
   border: none;
 }
 
 .btn-custom-light-green:hover {
-  background-color: #3d532d; /* Um verde mais escuro para o efeito hover */
+  background-color: #48b384; /* Um verde mais escuro para o efeito hover */
+}
+
+.title{
+  color: #5500ff;
 }

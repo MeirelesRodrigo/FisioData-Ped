@@ -3,11 +3,13 @@
   <hr>
 </div>
 
-<app-search-component
-  (search)="searchPacients($event)"
-  (clear)="clearFilters()"
-  (searchAll)="showAllPacientes()">
-</app-search-component>
+<div class="ms-2 me-2">
+  <app-search-component
+    (search)="searchPacients($event)"
+    (clear)="clearFilters()"
+    (searchAll)="showAllPacientes()">
+  </app-search-component>
+</div>
 
 <div class="table-responsive mt-4 small">
   <table class="table table-hover">
@@ -43,7 +45,12 @@
 
           <button class="btn btn-action-custom-green ms-2" title="Detalhes" (click)="showDetailModal(item.id)"> <fa-icon
               [icon]="IconsService.faHouseChimneyCrack" ></fa-icon></button>
-        </td>
+
+              <button class="btn btn-action-custom-green ms-2" title="Excluir" (click)="confirmeDelete($event, item.name, item.id)"> <fa-icon
+                [icon]="IconsService.faTrashCan" ></fa-icon></button>
+
+
+              </td>
       </tr>
   </table>
 </div>
@@ -61,3 +68,5 @@
     <app-detail-component *ngIf="detailModalVisible" [itemId]="itemSelect"></app-detail-component>
   </div>
 </p-dialog>
+
+<p-confirmPopup #confirmPopup></p-confirmPopup>

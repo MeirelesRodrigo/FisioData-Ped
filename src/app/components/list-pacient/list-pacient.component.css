@@ -1,14 +1,14 @@
 .btn-custom-green {
-  background-color: #597445 ; /* Verde do Bootstrap */
+  background-color: #5ae4a8 ; /* Verde do Bootstrap */
   color: #ffffff;
   border: none;
 }
 
 .btn-custom-green:hover {
-  background-color: #3d532d; /* Um verde mais escuro para o efeito hover */
+  background-color: #5ae4a8; /* Um verde mais escuro para o efeito hover */
 }
 .btn-custom-light-green {
-  background-color: #86a371 ; /* Verde do Bootstrap */
+  background-color: #48b384 ; /* Verde do Bootstrap */
   color: #ffffff;
   border: none;
 }
@@ -17,9 +17,9 @@
   background-color: #fcfcfc; /* Um verde mais escuro para o efeito hover */
 }
 .btn-action-custom-green {
-  color: #597445; /* Um verde mais escuro para o efeito hover */
+  color: #48b384; /* Um verde mais escuro para o efeito hover */
 }
 .form-check-input:checked {
-  background-color: #597445 !important; /* Fundo verde */
-  border-color: #597445 !important; /* Borda verde */
+  background-color: #48b384 !important; /* Fundo verde */
+  border-color: #48b384 !important; /* Borda verde */
 }
